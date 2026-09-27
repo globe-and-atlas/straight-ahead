@@ -39,7 +39,7 @@ SCENARIOS = [
     ("night_se", 135, 1260, 0, SPRING),
     ("late_nne", 20, 1439, 0, SPRING),
     ("early_n", 0, 30, 0, SPRING),
-    ("world_ne", 45, 720, 2, SPRING),
+    ("world_ne", 45, 720, 1, SPRING),  # the face opens in a session; one flick toggles
     ("nemo", 0, 720, 0, NEMO),
 ]
 

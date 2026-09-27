@@ -94,3 +94,22 @@ pick the smallest |d − m| + d·|Δθ|·π/180 (lateral miss). If none, use the
 | D11 | Coastline payload per view is ≤ 1,500 points | node test |
 | D12 | Emulator: day-ring screenshot at a fixture minute shows the cyan ring at the expected radius | emulator check |
 | D13 | Emulator: world view is reachable with a flick during a session | emulator check (fixture heading) |
+
+## Addendum 2026-09-27 — Heading-up on wrist raise
+
+Real-watch feedback: "doesn't move with my orientation" — the flick-only session was not discoverable.
+Middle ground: a compass session (heading-up, 60 s) also starts when the wrist is raised and when the
+face opens. Raise = the watch was face-vertical (arm down, z >= -250 mG) and is now face-up
+(z <= -600 mG). Accelerometer at 10 Hz, 10 samples per wake-up (1 wake/s). A flick still starts a
+session, and a flick during a session still toggles the world view; a raise during a session only
+extends it.
+
+| # | Assertion | Check |
+|---|---|---|
+| R1 | Arm-down samples followed by face-up samples report one raise | host test (raise.c) |
+| R2 | Face-up samples with no arm-down before them report no raise | host test |
+| R3 | Staying face-up after a raise reports no second raise | host test |
+| R4 | Down → up → down → up reports two raises | host test |
+| R5 | Samples with did_vibrate are ignored | code review |
+| R6 | Emulator: an arm-down → face-up accel sequence starts a session (header leaves N-UP) | emulator check |
+| R7 | A raise during a session does not toggle the world view | code review + host |

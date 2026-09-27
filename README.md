@@ -13,10 +13,11 @@ on you and turned to the way you face. Two views:
 
 ## Use
 
-- North-up by default (the day ring names what is due north on the ring).
-- **Flick** to turn the map to your compass heading for 60 s. **Flick again** during that minute to
-  toggle the world view. When the session ends the face returns to the day ring, north-up.
-  The compass only runs during sessions, to save battery.
+- **Raise your wrist** (or open the face) and the map turns to your compass heading for 60 s.
+  Raising again during that minute extends it. Afterwards the face rests north-up (the day ring
+  then names what is due north on the ring). The compass only runs during these sessions.
+- **Flick** during a session to toggle the world view (flicks in its first 2 s only extend it, so
+  the raise itself never toggles). A flick while north-up starts a session.
 - Header: time; `N-UP` / `HDG 045` (`?` while calibrating, `NO CMPS` if unavailable); the ring's
   distance (`12°00'`). `NO FIX` until the phone sends a location.
 

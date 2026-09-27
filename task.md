@@ -10,7 +10,8 @@ landfall. Directive: `directives/build_watchface.md`.
 
 - [x] M0 — Scaffold: repo, watchface builds, disc + range rings + north tick + facing line, flick-started compass sessions, phone sends location
 - [ ] M1 — Compass trial on a real Pebble Time 2: heading accuracy after calibration (V7)
-- [ ] M1 — Compass trial on a real Pebble Time 2: battery cost of 20 sessions/day over 3 days (V8)
+- [x] Sessions on wrist raise / face open (R1–R7)
+- [ ] M1 — Compass trial on a real Pebble Time 2: battery cost of raise-triggered sessions + 10 Hz accel over 3 days (V8)
 - [x] M2 — `execution/build_geodata.py`: Natural Earth coastline, cities, region grid bundled into `src/pkjs/geodata.js`
 - [x] M2 — Phone projects coastline to AEQD around the fix and sends int8 points in AppMessage chunks
 - [x] M2 — Watch stores the points and rotates them by heading

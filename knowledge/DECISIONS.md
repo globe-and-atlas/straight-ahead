@@ -24,3 +24,8 @@
 ## 2026-09-27 — Label rule and data
 - City window ±25 nmi / ±12°, scored by radial + lateral miss; fallback 36×24 region cells (sea → country → US state painted on a 0.5° grid). Cities sorted by population so crowded regions drop small cities, never far ones. Seas from NE 1:50m (1:110m lacks the Gulf of California); English names preferred.
 - World coastline: project full 1:110m then thin (simplifying in degree space first dropped Asia near the rim).
+
+## 2026-09-27 — Sessions start on wrist raise and on open (middle ground)
+- Decision: 60 s heading-up session on face open, on wrist raise (z down→up via 10 Hz accel, 1 wake/s), or flick; flick in-session toggles world view after a 2 s grace.
+- Alternatives: flick only (not discoverable — user saw a static map); always-on compass (battery unknown).
+- Reason: user chose the middle ground; battery cost of 10 Hz accel + sessions to be measured in the M1 on-watch trial.
