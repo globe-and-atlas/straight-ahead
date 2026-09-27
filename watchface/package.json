@@ -1,0 +1,32 @@
+{
+  "name": "straight-ahead",
+  "author": "Daniel Bally",
+  "version": "0.1.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Straight Ahead",
+    "uuid": "64ef5dc2-3af9-4280-bc42-ff30e0795067",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "emery"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "LAT_E6",
+      "LON_E6"
+    ],
+    "resources": {
+      "media": []
+    },
+    "capabilities": [
+      "location"
+    ]
+  }
+}
