@@ -14,3 +14,8 @@ timestamp: "2026-09-27T10:58:00-05:00"
 5. Flick: `pebble emu-tap --emulator emery --direction x+`. The emery emulator has **no compass**
    (status Unavailable → header `NO CMPS`); use the heading fixture for rotation.
 6. Verified 2026-09-27: north-up, location fix from pypkjs, fixture 45 puts the north tick at -45°.
+
+## Appstore (repebble)
+1. `python3 execution/emulator_check.py --store` → `.tmp/store/emery_*.png` (Greenwich; filenames must start with the platform).
+2. `cd watchface && pebble clean && pebble publish --non-interactive --no-gif-all-platforms --name ... --version X --description ... --release-notes ... --screenshots ../.tmp/store/emery_*.png`
+3. Without `--is-published` the release is a draft; publish from https://appstore-api.repebble.com/dashboard. `dev.json` must be `{}` (test_v14 checks).

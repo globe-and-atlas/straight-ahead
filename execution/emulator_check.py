@@ -28,6 +28,7 @@ OUT = ROOT / ".tmp" / "emulator"
 DEV = WATCH / "src" / "pkjs" / "dev.json"
 SPRING = {"lat": 30.08, "lon": -95.42}
 NEMO = {"lat": -48.88, "lon": -123.39}  # no coast or city within 24 degrees: empty payloads
+GREENWICH = {"lat": 51.4779, "lon": -0.0015}  # store screenshots: never publish the owner's home
 CX, CY, R = 100, 140, 84
 CYAN = (0, 255, 255)
 
@@ -41,6 +42,14 @@ SCENARIOS = [
     ("early_n", 0, 30, 0, SPRING),
     ("world_ne", 45, 720, 1, SPRING),  # the face opens in a session; one flick toggles
     ("nemo", 0, 720, 0, NEMO),
+]
+
+# `--store`: appstore screenshots (filenames must start with the platform name).
+STORE = [
+    ("emery_1_noon", 0, 720, 0, GREENWICH),
+    ("emery_2_evening", 120, 1110, 0, GREENWICH),
+    ("emery_3_dawn", 200, 380, 0, GREENWICH),
+    ("emery_4_world", 60, 720, 1, GREENWICH),
 ]
 
 
@@ -98,12 +107,17 @@ def facing_line(img: Image.Image) -> int:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--only", nargs="*")
+    ap.add_argument("--store", action="store_true", help="capture appstore screenshots into .tmp/store/")
     args = ap.parse_args()
+    global OUT
+    scenarios = STORE if args.store else SCENARIOS
+    if args.store:
+        OUT = ROOT / ".tmp" / "store"
     OUT.mkdir(parents=True, exist_ok=True)
     reports = []
     boot()
     try:
-        for name, heading, minute, flicks, where in SCENARIOS:
+        for name, heading, minute, flicks, where in scenarios:
             if args.only and name not in args.only:
                 continue
             DEV.write_text(json.dumps(where) + "\n")

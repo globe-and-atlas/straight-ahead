@@ -43,7 +43,9 @@ static void update_time(struct tm *t) {
   strftime(s_time, sizeof(s_time), clock_is_24h_style() ? "%H:%M" : "%I:%M", t);
   if (!clock_is_24h_style() && s_time[0] == '0') memmove(s_time, s_time + 1, sizeof(s_time) - 1);
 #if SA_TEST_MINUTE >= 0
+  // Fixture: the clock and the ring must agree in screenshots.
   s_minute = SA_TEST_MINUTE;
+  snprintf(s_time, sizeof(s_time), "%d:%02d", SA_TEST_MINUTE / 60, SA_TEST_MINUTE % 60);
 #else
   s_minute = t->tm_hour * 60 + t->tm_min;
 #endif
