@@ -17,3 +17,5 @@ timestamp: "2026-09-27T10:58:00-05:00"
 - Compass gives magnetic heading only (SDK); true heading needs declination (WMM, M4).
 - Prior art: Projections (2017) has a static pole-centred AEQD image; North Analog (2014)
   rotates a dial by compass; Yearlight is orthographic, north-up, no compass.
+- Day ring: 1 arcminute of great circle = 1 nmi (R = 10800/π nmi), so minutes since midnight map directly to nmi; the day disc's rim is 1,440 nmi (24°).
+- Near the antipode AEQD smears the far hemisphere; thin *after* projecting or sparse rim points get treated as wrap-arounds (JUMP = 40 units).

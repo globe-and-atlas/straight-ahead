@@ -1,7 +1,7 @@
 {
   "name": "straight-ahead",
   "author": "Daniel Bally",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [
     "pebble-app"
   ],
@@ -20,7 +20,11 @@
     },
     "messageKeys": [
       "LAT_E6",
-      "LON_E6"
+      "LON_E6",
+      "KIND",
+      "OFFSET",
+      "TOTAL",
+      "DATA"
     ],
     "resources": {
       "media": []

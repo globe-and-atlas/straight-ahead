@@ -10,3 +10,10 @@ Record deterministic errors, root causes, and fixes here.
 
 ## 2026-09-27 — Emulator showed another project's face after "install succeeded" (infrastructure)
 - Stale shared QEMU state; fixed by kill + boot + reinstall. Logged only; see `_PEBBLE` skill.
+
+## 2026-09-27 — World view missing Asia/Australia
+- Cause: coastline simplified in lon/lat before projection; near the antipode consecutive sparse points jumped > 40 units and were dropped as wrap-arounds.
+- Fix: project the full coastline, then thin to ≤ 1,500 points. Graduated to: knowledge/domain/projection.md.
+
+## 2026-09-27 — HDG 019 for a 20° heading
+- Cause: truncating TRIG units → tenths of a degree twice. Fix: round in `heading10()`.

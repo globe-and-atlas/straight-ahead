@@ -15,3 +15,12 @@
 - Decision: compass subscribed only for 60 s after a wrist flick; north-up otherwise.
 - Alternatives: always-on compass (battery risk flagged by prior-art research); button-driven (faces get no buttons).
 - Reason: battery; the face is legible north-up, heading-up is the reward for a deliberate gesture. M1 measures the real cost.
+
+## 2026-09-27 — Day ring as the default view (option C)
+- Decision: default view is a 24° AEQD disc with a ring at minutes-since-midnight nmi and a named place ahead; the whole-world view is a second flick away.
+- Alternatives: world view only (novel but less glanceable); day ring only (loses the antipode/great-circle view).
+- Reason: the ring reads as a clock at a glance; the world view keeps the novelty. Distance rule is shared with From Here (noted in README).
+
+## 2026-09-27 — Label rule and data
+- City window ±25 nmi / ±12°, scored by radial + lateral miss; fallback 36×24 region cells (sea → country → US state painted on a 0.5° grid). Cities sorted by population so crowded regions drop small cities, never far ones. Seas from NE 1:50m (1:110m lacks the Gulf of California); English names preferred.
+- World coastline: project full 1:110m then thin (simplifying in degree space first dropped Asia near the rim).

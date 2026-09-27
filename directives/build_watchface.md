@@ -62,3 +62,35 @@ Binary pass/fail. Rows marked (M0) hold for the scaffold; the rest define later 
 
 ### 2026-09-27
 - The emery emulator reports `CompassStatusUnavailable`; `pebble emu-compass` does nothing on it. Rotation is tested with the `SA_TEST_HEADING` fixture; the real compass needs the watch (M1).
+
+## Addendum 2026-09-27 — Day ring (option C)
+
+Two views. **Day ring** (default): a regional azimuthal-equidistant map whose rim is 24° (1,440 nmi)
+from the wearer. A ring sits at *minutes since local midnight* nautical miles (1 arcminute of great
+circle = 1 nmi), so it grows from the wearer at 00:00 to the rim at 23:59. The vertical is still the
+bearing faced (north when north-up). The label names what lies where the ring crosses that bearing:
+the nearest major city in a window, otherwise the water body, US state or country there.
+**World** view: the whole-Earth disc from M0. A flick during a compass session toggles views; the
+session ending returns to the day ring, north-up. The distance rule is shared with From Here
+(H°M′ = minutes since midnight in arcminutes); what's new here is the compass bearing, the drawn
+ring and the named place.
+
+Label rule (watch, integer): among cities with |d − m| ≤ 25 nmi and |bearing − heading| ≤ 12°,
+pick the smallest |d − m| + d·|Δθ|·π/180 (lateral miss). If none, use the region cell at
+(round(heading / 10°), m / 60): 36 bearings × 24 distance bands, filled by the phone.
+
+| # | Assertion | Check |
+|---|---|---|
+| D1 | Ring radius px = minutes × DISC_R / 1440 (±1 px) | host test (C) |
+| D2 | At 00:00 the ring radius is 0 | host test |
+| D3 | At 23:59 the ring radius is DISC_R − 1 or DISC_R | host test |
+| D4 | Phone AEQD: projected radius = great-circle distance / scale × 127 (±1 unit) vs an independent Python implementation | node + python test |
+| D5 | Phone AEQD: projected bearing within 1° of the initial great-circle bearing | node + python test |
+| D6 | Spring TX, 12:00, heading 0 → label OMAHA or a city within the window (Omaha is 671 nmi at 358°; window is 695–745 nmi, so a regional fallback such as IOWA is also correct) | host test with fixture data |
+| D7 | A city outside ±12° is never picked | host test |
+| D8 | A city outside ±25 nmi of the ring is never picked | host test |
+| D9 | Region fallback returns the cell for the rounded bearing and distance band | host test |
+| D10 | Geodata bundle for pkjs is ≤ 400 KB | build script check |
+| D11 | Coastline payload per view is ≤ 1,500 points | node test |
+| D12 | Emulator: day-ring screenshot at a fixture minute shows the cyan ring at the expected radius | emulator check |
+| D13 | Emulator: world view is reachable with a flick during a session | emulator check (fixture heading) |

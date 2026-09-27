@@ -11,3 +11,8 @@
 #ifndef SA_TEST_HEADING
 #define SA_TEST_HEADING -1
 #endif
+
+// 0..1439 freezes minutes since midnight for the day ring (emulator fixture). -1 = the clock.
+#ifndef SA_TEST_MINUTE
+#define SA_TEST_MINUTE -1
+#endif

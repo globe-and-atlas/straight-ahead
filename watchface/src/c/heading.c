@@ -24,6 +24,7 @@ static void end_session(void *context) {
   s_session = NULL;
   compass_service_unsubscribe();
   s_heading.live = false;
+  s_heading.world = false;
   s_heading.heading = 0;
   notify();
 }
@@ -31,6 +32,8 @@ static void end_session(void *context) {
 static void tap_handler(AccelAxisType axis, int32_t direction) {
   if (s_session) {
     app_timer_reschedule(s_session, HEADING_SESSION_MS);
+    s_heading.world = !s_heading.world;
+    notify();
     return;
   }
   s_heading.live = true;
@@ -43,7 +46,7 @@ static void tap_handler(AccelAxisType axis, int32_t direction) {
 
 void heading_start(HeadingHandler on_change) {
   s_handler = on_change;
-  s_heading = (Heading){.heading = 0, .live = false, .status = CompassStatusDataInvalid};
+  s_heading = (Heading){.heading = 0, .live = false, .world = false, .status = CompassStatusDataInvalid};
   accel_tap_service_subscribe(tap_handler);
 }
 

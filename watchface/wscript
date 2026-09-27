@@ -33,9 +33,9 @@ def build(ctx):
     for platform in ctx.env.TARGET_PLATFORMS:
         ctx.env = ctx.all_envs[platform]
         # Optional build-time switch (default in src/c/config.h, since CloudPebble ignores this
-        # file): SA_DEBUG=1 adds the raw heading/location readout; SA_TEST_HEADING=N freezes the
-        # heading for emulator screenshots (never distribute such a build).
-        for name in ('SA_DEBUG', 'SA_TEST_HEADING'):
+        # file): SA_DEBUG=1 adds the raw heading/location readout; SA_TEST_HEADING=N / SA_TEST_MINUTE=N freeze the
+        # heading / clock for emulator screenshots (never distribute such a build).
+        for name in ('SA_DEBUG', 'SA_TEST_HEADING', 'SA_TEST_MINUTE'):
             value = os.environ.get(name)
             if value is not None:
                 ctx.env.append_value('DEFINES', '%s=%d' % (name, int(value)))
