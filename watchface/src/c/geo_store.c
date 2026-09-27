@@ -53,27 +53,25 @@ static void parse_names(void) {
 }
 
 static void on_message(DictionaryIterator *iter, void *context) {
-  Tuple *lat = dict_find(iter, MESSAGE_KEY_LAT_E6);
-  if (lat) {
-    // A new fix starts a new map: forget the old one so views never mix two centres.
-    s_fix = true;
-    for (int k = 0; k < GEO_KINDS; k++) s_ready[k] = false;
-  }
+  // Old data stays on screen until each kind's replacement completes (a kind blanks only while
+  // its own chunks stream), so a refresh never empties the face.
+  if (dict_find(iter, MESSAGE_KEY_LAT_E6)) s_fix = true;
   Tuple *kind_t = dict_find(iter, MESSAGE_KEY_KIND);
   Tuple *off_t = dict_find(iter, MESSAGE_KEY_OFFSET);
   Tuple *total_t = dict_find(iter, MESSAGE_KEY_TOTAL);
   Tuple *data_t = dict_find(iter, MESSAGE_KEY_DATA);
-  if (kind_t && off_t && total_t && data_t) {
+  // An empty kind (e.g. no coastline within the day disc at sea) arrives with TOTAL 0, no DATA.
+  if (kind_t && off_t && total_t && (data_t || total_t->value->int32 == 0)) {
     int kind = kind_t->value->int32;
     int off = off_t->value->int32;
     int total = total_t->value->int32;
-    int n = data_t->length;
+    int n = data_t ? data_t->length : 0;
     if (kind < 0 || kind >= GEO_KINDS || total > CAPACITY[kind] || off < 0 || off + n > total) {
       APP_LOG(APP_LOG_LEVEL_WARNING, "geo: dropped kind %d off %d n %d total %d", kind, off, n, total);
       return;
     }
     if (off == 0) s_ready[kind] = false;
-    memcpy(BUFFERS[kind] + off, data_t->value->data, n);
+    if (n) memcpy(BUFFERS[kind] + off, data_t->value->data, n);
     if (off + n == total) {
       s_len[kind] = total;
       if (kind == GEO_CITIES) parse_cities();

@@ -16,6 +16,10 @@ var KIND = { DAY_COAST: 0, WORLD_COAST: 1, CITIES: 2, CELLS: 3, NAMES: 4 };
 var queue = [];
 var sending = false;
 
+var MAX_RETRIES = 5;
+var MOVE_NM = 1;  // a refresh closer than this to the last sent fix changes nothing visible
+var lastSent = null;
+
 function pump() {
   if (sending || !queue.length) return;
   sending = true;
@@ -24,21 +28,28 @@ function pump() {
     sending = false;
     pump();
   }, function (e) {
-    console.log('sendAppMessage failed, retrying: ' + JSON.stringify(e && e.error));
-    queue.unshift(msg);
+    msg.retries = (msg.retries || 0) + 1;
+    console.log('sendAppMessage failed (' + msg.retries + '): ' + JSON.stringify(e && e.error));
+    if (msg.retries < MAX_RETRIES) queue.unshift(msg);
     sending = false;
     setTimeout(pump, 1000);
   });
 }
 
+// Empty kinds go as TOTAL 0 with no DATA key: a zero-length byte array may not survive AppMessage.
 function enqueue(kind, bytes) {
-  for (var off = 0; off < bytes.length || off === 0; off += CHUNK) {
+  if (!bytes.length) {
+    queue.push({ KIND: kind, OFFSET: 0, TOTAL: 0 });
+    return;
+  }
+  for (var off = 0; off < bytes.length; off += CHUNK) {
     queue.push({ KIND: kind, OFFSET: off, TOTAL: bytes.length, DATA: bytes.slice(off, off + CHUNK) });
-    if (!bytes.length) break;
   }
 }
 
-function sendMap(lat, lon) {
+function sendMap(lat, lon, force) {
+  if (!force && lastSent && geo.inverse(lastSent[0], lastSent[1], lat, lon).nm < MOVE_NM) return;
+  lastSent = [lat, lon];
   var t0 = Date.now();
   var day = geo.thin(geo.project(lat, lon, geodata.coast, geo.DAY_SCALE_NM));
   // Thin after projecting, not before: near the rim sparse points read as wrap-arounds.
@@ -60,11 +71,11 @@ function sendMap(lat, lon) {
 
 function locate() {
   if (typeof dev.lat === 'number' && typeof dev.lon === 'number') {
-    sendMap(dev.lat, dev.lon);
+    sendMap(dev.lat, dev.lon, false);
     return;
   }
   navigator.geolocation.getCurrentPosition(function (pos) {
-    sendMap(pos.coords.latitude, pos.coords.longitude);
+    sendMap(pos.coords.latitude, pos.coords.longitude, false);
   }, function (err) {
     console.log('geolocation failed: ' + err.message);
   }, { timeout: 15000, maximumAge: REFRESH_MS });

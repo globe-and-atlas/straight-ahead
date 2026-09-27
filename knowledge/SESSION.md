@@ -30,3 +30,6 @@
 - 2026-09-27 11:00 — day ring: geodata bundle (150 KB), phone projection + chunks, geo_store, place.c label rule, two views
 - 2026-09-27 11:08 — emulator_check 7/7 pass (Des Moines, Gulf of Mexico, Mexico, Caribbean Sea, Canada, Texas, World); fixed world-coast thinning + heading rounding
 - 2026-09-27 11:12 — tests: 35 pass (C harness + node vs independent Python AEQD)
+- 2026-09-27 11:10 — commit: feat: day-ring view with named place ahead, world view on second flick | README.md,directives/build_watchface.md,execution/build.py,execution/build_geodata.py,execution/emulator_check.py
+- 2026-09-27 11:20 — creator-verifier: APPROVE WITH NITS; fixed 1 major + 2 minor; Point Nemo scenario + clean boot added to emulator_check
+- 2026-09-27 11:36 — emulator flash corrupted by kill -9 → backed up + `pebble wipe`; emulator_check 8/8 pass incl. Point Nemo (PACIFIC OCEAN, empty payloads); tests 35 pass

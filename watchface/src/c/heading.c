@@ -10,8 +10,10 @@ static void notify(void) {
 
 static void compass_handler(CompassHeadingData data) {
   s_heading.status = data.compass_status;
-  // Unavailable (e.g. the emery emulator) and DataInvalid carry no usable heading.
+  // Unavailable (e.g. the emery emulator) and DataInvalid carry no usable heading: fall back to
+  // north-up so the map, the label and the header never disagree.
   if (data.compass_status < CompassStatusCalibrating) {
+    s_heading.heading = 0;
     notify();
     return;
   }

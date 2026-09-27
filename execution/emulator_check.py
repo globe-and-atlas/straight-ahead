@@ -27,18 +27,20 @@ from build import ROOT, WATCH, build
 OUT = ROOT / ".tmp" / "emulator"
 DEV = WATCH / "src" / "pkjs" / "dev.json"
 SPRING = {"lat": 30.08, "lon": -95.42}
+NEMO = {"lat": -48.88, "lon": -123.39}  # no coast or city within 24 degrees: empty payloads
 CX, CY, R = 100, 140, 84
 CYAN = (0, 255, 255)
 
-# name, heading, minute, flicks
+# name, heading, minute, flicks, location
 SCENARIOS = [
-    ("noon_n", 0, 720, 0),
-    ("dawn_e", 90, 360, 0),
-    ("afternoon_w", 270, 900, 0),
-    ("night_se", 135, 1260, 0),
-    ("late_nne", 20, 1439, 0),
-    ("early_n", 0, 30, 0),
-    ("world_ne", 45, 720, 2),
+    ("noon_n", 0, 720, 0, SPRING),
+    ("dawn_e", 90, 360, 0, SPRING),
+    ("afternoon_w", 270, 900, 0, SPRING),
+    ("night_se", 135, 1260, 0, SPRING),
+    ("late_nne", 20, 1439, 0, SPRING),
+    ("early_n", 0, 30, 0, SPRING),
+    ("world_ne", 45, 720, 2, SPRING),
+    ("nemo", 0, 720, 0, NEMO),
 ]
 
 
@@ -47,6 +49,18 @@ def run(args: list[str], timeout: int = 180) -> str:
     if r.returncode != 0:
         raise RuntimeError(f"{' '.join(args)} failed: {r.stdout[-400:]} {r.stderr[-400:]}")
     return r.stdout
+
+
+def boot() -> None:
+    """Start from a clean emulator: stale QEMU/pypkjs state shows the wrong face (see _PEBBLE skill)."""
+    subprocess.run(["pebble", "kill"], cwd=WATCH, capture_output=True)
+    for proc in ("pypkjs", "qemu-pebble"):
+        subprocess.run(["pkill", "-f", proc], capture_output=True)
+    time.sleep(2)
+    build()
+    subprocess.run(["pebble", "install", "--emulator", "emery", "build/watchface.pbw"], cwd=WATCH,
+                   capture_output=True, timeout=240)
+    time.sleep(20)
 
 
 def install() -> None:
@@ -87,11 +101,12 @@ def main() -> None:
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     reports = []
+    boot()
     try:
-        DEV.write_text(json.dumps(SPRING) + "\n")
-        for name, heading, minute, flicks in SCENARIOS:
+        for name, heading, minute, flicks, where in SCENARIOS:
             if args.only and name not in args.only:
                 continue
+            DEV.write_text(json.dumps(where) + "\n")
             build(heading=heading, minute=minute)
             install()
             for _ in range(flicks):

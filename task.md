@@ -17,7 +17,8 @@ landfall. Directive: `directives/build_watchface.md`.
 - [x] M2 — Host tests (tests/test_geo.py, tests/test_place.py: 35 pass)
 - [x] Day ring (option C): ring at minutes-since-midnight nmi, label = city in window → sea/state/country; world view on second flick
 - [x] `execution/emulator_check.py` (7 scenarios, D12/D13 pixel checks)
-- [ ] Creator-verifier pass on the day ring
+- [x] Creator-verifier pass on the day ring (APPROVE WITH NITS; major + 2 minor fixed)
+- [ ] Persist map/cities (`persist_write`) so a relaunch without the phone still shows the map
 - [ ] M3 — World view: first landfall along the facing great circle (label row currently `WORLD`)
 - [ ] M4 — WMM2025 declination on the phone; watch rotates by true heading
 - [ ] M5 — `execution/emulator_check.py`, CloudPebble simulation, README screenshots, own public repo under globe-and-atlas
