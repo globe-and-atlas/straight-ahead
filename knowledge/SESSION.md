@@ -6,7 +6,7 @@
 **Agent:** Claude Code CLI (claude-opus-5-5)
 **Handoff-from:** none
 **Handoff-type:** new-project
-**Status:** Completed (M0); M1 needs the physical watch
+**Status:** M0 built and emulator-checked; creator-verifier pass not yet run (unverified). M1 needs the physical watch
 
 ## Handoff — YYYY-MM-DD HH:MM
 - **Completed**: [Specific features/files actually finished]
@@ -26,3 +26,4 @@
 - 2026-09-27 10:48 — emulator: north-up, location fix, flick session verified; compass unavailable in emery emulator → fixed HDG 000 bug
 - 2026-09-27 10:50 — SA_TEST_HEADING=45 fixture: north tick at -45° ✅ (V3); production build → dist/straight-ahead.pbw ✅ (V1)
 - 2026-09-27 10:55 — directive + Validation Contract, task.md milestones M0–M5, README, DECISIONS, ERRORS; _PEBBLE workspace skill created
+- 2026-09-27 10:52 — commit: feat: scaffold Straight Ahead watchface (M0) | README.md,directives/build_watchface.md,execution/build.py,knowledge/DECISIONS.md,knowledge/ERRORS.md
