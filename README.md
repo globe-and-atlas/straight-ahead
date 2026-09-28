@@ -24,6 +24,12 @@ on you and turned to the way you face. Two views:
 The day ring shares its distance rule with Globe & Atlas *From Here* (H°M′ = minutes since midnight
 in arcminutes); Straight Ahead adds your compass bearing, the drawn ring and the named place.
 
+## Install
+
+- [Pebble Appstore](https://apps.rePebble.com/a792f7d2290b4da48bb86ca5)
+- [Open in CloudPebble](https://cloudpebble.repebble.com/ide/import/github/globe-and-atlas/straight-ahead/main) (the branch is in the link because CloudPebble's import defaults to `master`)
+- Or build locally and `pebble install --cloudpebble dist/straight-ahead.pbw`
+
 ## Build
 
 ```sh
