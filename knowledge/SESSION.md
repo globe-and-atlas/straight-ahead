@@ -40,3 +40,4 @@
 - 2026-09-27 14:54 — commit: chore: appstore screenshots at Greenwich; clock follows the minute fixture | execution/emulator_check.py,knowledge/SESSION.md,knowledge/procedural/build_and_emulate.md,watchface/.lock-waf_darwin_build,watchface/src/c/main.c
 - 2026-09-27 19:29 — commit: docs: install links (appstore, CloudPebble) | README.md
 - 2026-09-27 22:22 — commit: chore: stop tracking waf lock file (contains local paths) | .gitignore,watchface/.lock-waf_darwin_build
+- 2026-09-27 22:22 — commit: docs: log published waf lock file incident | .tmp/.gitkeep,knowledge/ERRORS.md,knowledge/SESSION.md
