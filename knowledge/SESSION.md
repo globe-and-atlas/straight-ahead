@@ -38,3 +38,5 @@
 - 2026-09-27 14:43 — commit: feat: heading-up session on wrist raise and on open | README.md,directives/build_watchface.md,execution/emulator_check.py,knowledge/DECISIONS.md,knowledge/SESSION.md
 - 2026-09-27 14:58 — appstore: published 0.2.0 as DRAFT (not --is-published) via `pebble publish --non-interactive`; screenshots centred on Greenwich (never the owner's home), clock frozen to fixture minute; page https://apps.rePebble.com/a792f7d2290b4da48bb86ca5. CloudPebble install to watch timed out (phone not connected).
 - 2026-09-27 14:54 — commit: chore: appstore screenshots at Greenwich; clock follows the minute fixture | execution/emulator_check.py,knowledge/SESSION.md,knowledge/procedural/build_and_emulate.md,watchface/.lock-waf_darwin_build,watchface/src/c/main.c
+- 2026-09-27 19:29 — commit: docs: install links (appstore, CloudPebble) | README.md
+- 2026-09-27 22:22 — commit: chore: stop tracking waf lock file (contains local paths) | .gitignore,watchface/.lock-waf_darwin_build

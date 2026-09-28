@@ -23,3 +23,8 @@ Record deterministic errors, root causes, and fixes here.
 - Minor: every 30-min refresh cleared all ready flags (face blanked). Fix: no global reset on LAT; phone skips resend when moved < 1 nmi.
 - Minor (suspected): empty payload kinds sent as zero-length DATA could loop retries forever. Fix: TOTAL 0 without DATA, watch accepts it; retries capped at 5. Point Nemo emulator scenario added.
 - Open: magnetic vs true north (M4, ~2° at Spring TX, 15–20° in the Pacific NW/Alaska); world-view landfall (M3); no persistence across relaunch without phone.
+
+## 2026-09-27 — Shell environment published in watchface/.lock-waf_darwin_build (security)
+- Error: waf's lock file (written by `pebble build`) was committed in every commit since the scaffold and pushed publicly. It contains the full shell environment: POSTHOG_API_KEY (phc_ project key), CLAUDE_CODE_MESSAGING_TOKEN (session-scoped), session ids, paths.
+- Cause: this repo's .gitignore (from project-template) had no `.lock-waf*` entry; `git add -A` picked it up.
+- Fix: untracked + ignored (64e39b1); project-template .gitignore and the _PEBBLE skill updated. History purge + force-push pending owner decision; see SESSION.md.
